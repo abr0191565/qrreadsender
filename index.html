@@ -62,9 +62,12 @@
     function decodeContinuously(codeReader, selectedDeviceId) {
       codeReader.decodeFromInputVideoDeviceContinuously(selectedDeviceId, 'video', (result, err) => {
         if (result) {
+          const parsedUrl = new URL(window.location.href);
+          const name = parsedUrl.searchParams.get("name");
+
           // properly decoded qr code
           console.log('Found QR code!', result)
-          document.getElementById('result').textContent = result.text
+          document.getElementById('result').textContent = result.text + " -- " + name
         }
 
         if (err) {
@@ -100,7 +103,6 @@
 
       codeReader.getVideoInputDevices()
         .then((videoInputDevices) => {
-          //selectedDeviceId = videoInputDevices[0].deviceId
           selectedDeviceId = undefined
 
           document.getElementById('startButton').addEventListener('click', () => {
